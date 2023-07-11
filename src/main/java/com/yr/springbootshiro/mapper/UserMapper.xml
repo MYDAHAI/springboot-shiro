@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yr.springbootshiro.mapper.UserMapper">
+
+    <resultMap type="com.yr.springbootshiro.entity.UUser" id="userResult">
+        <result column="id" property="id"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+        <result column="pswd" property="pswd"/>
+        <result column="createTime" property="createTime"/>
+        <result column="lastLoginTime" property="lastLoginTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="getId" resultMap="userResult">
+        select * from u_user where email = #{email}
+    </select>
+
+    <select id="getEmail" resultType="String">
+        select DISTINCT p.url
+        from u_user u,u_user_role ur,u_role r,u_permission p,u_role_permission rp
+        where u.id = ur.uid and ur.rid = rp.rid and rp.pid =p.id and u.email = #{email}
+    </select>
+
+    <select id="getMark" resultType="String">
+        select mark
+        from u_permission
+        where url = #{url}
+    </select>
+</mapper>
